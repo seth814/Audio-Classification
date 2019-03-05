@@ -25,7 +25,7 @@ pyparsing==2.3.1
 python-dateutil==2.8.0
 python-speech-features==0.6
 pytz==2018.9
-PyYAML==3.13
+PyYAML==4.2b1
 resampy==0.2.1
 scikit-learn==0.20.3
 scipy==1.2.1

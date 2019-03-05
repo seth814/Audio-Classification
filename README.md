@@ -6,5 +6,5 @@ empty directory for audio classification videos
 ```
 conda create -n audio python=3.6
 activate audio
-pip install requirements.txt
+pip install -r requirements.txt
 ```
