@@ -61,7 +61,7 @@ qtconsole==4.5.2
 Send2Trash==1.5.0
 six==1.12.0
 tensorboard==1.14.0
-tensorflow==1.15.0
+tensorflow==1.15.2
 tensorflow-estimator==1.14.0
 termcolor==1.1.0
 terminado==0.8.2
