@@ -35,7 +35,7 @@ six==1.14.0
 SoundFile==0.10.3.post1
 tensorboard==1.15.0
 tensorflow-estimator==1.15.1
-tensorflow-gpu==1.15.0
+tensorflow-gpu==1.15.2
 termcolor==1.1.0
 Werkzeug==1.0.0
 wrapt==1.12.0
