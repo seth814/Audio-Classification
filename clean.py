@@ -66,7 +66,7 @@ def split_wavs(args):
         for fn in tqdm(os.listdir(src_dir)):
             src_fn = os.path.join(src_dir, fn)
             rate, wav = downsample_mono(src_fn, args.sr)
-            mask = envelope(wav, rate, threshold=args.threshold)
+            mask, y_mean = envelope(wav, rate, threshold=args.threshold)
             wav = wav[mask]
             delta_sample = int(dt*rate)
 

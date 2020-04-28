@@ -71,6 +71,7 @@ def train(args):
               'conv2d':Conv2D(),
               'lstm':  LSTM()}
     assert model_type in models.keys(), '{} not an available model'.format(model_type)
+    csv_path = os.path.join('logs', '{}_history.csv'.format(model_type))
 
     wav_paths = glob('{}/**'.format(src_root), recursive=True)
     wav_paths = [x for x in wav_paths if '.wav' in x]
@@ -93,7 +94,7 @@ def train(args):
     cp = ModelCheckpoint('models/{}.h5'.format(model_type), monitor='val_loss',
                          save_best_only=True, save_weights_only=False,
                          mode='auto', save_freq='epoch', verbose=1)
-    csv_logger = CSVLogger(os.path.join('logs', '{}_history.csv'.format(model_type)), append=True)
+    csv_logger = CSVLogger(csv_path, append=False)
     model.fit(tg, validation_data=vg,
               epochs=30, verbose=1,
               callbacks=[csv_logger, cp])
