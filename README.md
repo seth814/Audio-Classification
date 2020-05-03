@@ -68,7 +68,7 @@ Assuming you have ran all 3 models and saved the images into logs, check `notebo
 
 ![history](docs/model_history.png)
 
-### Kapre (Keras Audio Preprocessors)
+### Kapre
 
 For computation of audio transforms from time to frequency domain on the fly
 
