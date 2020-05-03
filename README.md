@@ -12,7 +12,7 @@ Pipeline for prototyping audio classification algorithms with TF 2
 - [Audio Preprocessing](#audio-preprocessing)
 - [Training](#training)
 - [Plot History](#plot-history)
-- [Kapre](#kapre-(keras-audio-preprocessors))
+- [Kapre](#kapre)
 
 <!-- /TOC -->
 
