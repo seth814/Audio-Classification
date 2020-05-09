@@ -55,12 +55,6 @@ class DataGenerator(tf.keras.utils.Sequence):
             np.random.shuffle(self.indexes)
 
 
-def get_class(s, src_root):
-    s = s.split('{}/'.format(src_root))[-1]
-    s = s.split('/')[0]
-    return s
-
-
 def train(args):
     src_root = args.src_root
     sr = args.sample_rate
@@ -74,11 +68,11 @@ def train(args):
     csv_path = os.path.join('logs', '{}_history.csv'.format(model_type))
 
     wav_paths = glob('{}/**'.format(src_root), recursive=True)
-    wav_paths = [x for x in wav_paths if '.wav' in x]
+    wav_paths = [x.replace(os.sep, '/') for x in wav_paths if '.wav' in x]
     classes = sorted(os.listdir(args.src_root))
     le = LabelEncoder()
     le.fit(classes)
-    labels = [get_class(x, src_root) for x in wav_paths]
+    labels = [os.path.split(x)[0].split('/')[-1] for x in wav_paths]
     labels = le.transform(labels)
 
     wav_train, wav_val, label_train, label_val = train_test_split(wav_paths,
