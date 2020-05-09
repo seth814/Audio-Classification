@@ -61,9 +61,11 @@ def train(args):
     dt = args.delta_time
     batch_size = args.batch_size
     model_type = args.model_type
-    models = {'conv1d':Conv1D(),
-              'conv2d':Conv2D(),
-              'lstm':  LSTM()}
+    params = {'SR':sr,
+              'DT':dt}
+    models = {'conv1d':Conv1D(**params),
+              'conv2d':Conv2D(**params),
+              'lstm':  LSTM(**params)}
     assert model_type in models.keys(), '{} not an available model'.format(model_type)
     csv_path = os.path.join('logs', '{}_history.csv'.format(model_type))
 

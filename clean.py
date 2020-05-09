@@ -120,7 +120,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--fn', type=str, default='3a3d0279',
                         help='file to plot over time to check magnitude')
-    parser.add_argument('--threshold', type=str, default=100,
+    parser.add_argument('--threshold', type=str, default=20,
                         help='threshold magnitude for np.int16 dtype')
     args, _ = parser.parse_known_args()
 
