@@ -12,6 +12,8 @@ Pipeline for prototyping audio classification algorithms with TF 2
 - [Audio Preprocessing](#audio-preprocessing)
 - [Training](#training)
 - [Plot History](#plot-history)
+- [Confusion Matrix](#confusion-matrix)
+- [Receiver Operating Characteristic](#receiver-operating-characteristic)
 - [Kapre](#kapre)
 
 <!-- /TOC -->
@@ -67,6 +69,14 @@ Sample rate and delta time should be the same from clean.py
 Assuming you have ran all 3 models and saved the images into logs, check `notebooks/Plot History.ipynb`
 
 ![history](docs/model_history.png)
+
+### Confusion Matrix
+
+![conf_mat](docs/conf_mat.png)
+
+### Receiver Operating Characteristic
+
+![roc](docs/roc.png)
 
 ### Kapre
 
