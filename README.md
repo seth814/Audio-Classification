@@ -70,6 +70,8 @@ Assuming you have ran all 3 models and saved the images into logs, check `notebo
 
 ![history](docs/model_history.png)
 
+`notebooks/Confusion Matrix and ROC.ipynb`
+
 ### Confusion Matrix
 
 ![conf_mat](docs/conf_mat.png)
