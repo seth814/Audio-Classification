@@ -5,7 +5,7 @@ import os
 from glob import glob
 import numpy as np
 import pandas as pd
-from librosa.core import resample
+from librosa.core import resample, to_mono
 from tqdm import tqdm
 
 
@@ -25,14 +25,14 @@ def envelope(y, rate, threshold):
 
 def downsample_mono(path, sr):
     rate, wav = wavfile.read(path)
-    wav = resample(wav.astype(np.float32), rate, sr)
-    wav = wav.astype(np.int16)
-    # checks stereo and converts to mono if nessesary
+    wav = wav.astype(np.float32, order='F')
     try:
         tmp = wav.shape[1]
-        wav = wav[:,0]+wav[:,1] / 2
+        wav = to_mono(wav.T)
     except:
         pass
+    wav = resample(wav, rate, sr)
+    wav = wav.astype(np.int16)
     return sr, wav
 
 

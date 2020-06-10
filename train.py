@@ -61,7 +61,8 @@ def train(args):
     dt = args.delta_time
     batch_size = args.batch_size
     model_type = args.model_type
-    params = {'SR':sr,
+    params = {'N_CLASSES':len(os.listdir(args.src_root)),
+              'SR':sr,
               'DT':dt}
     models = {'conv1d':Conv1D(**params),
               'conv2d':Conv2D(**params),

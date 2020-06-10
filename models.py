@@ -8,10 +8,7 @@ import tensorflow as tf
 import os
 
 
-N_CLASSES = len(os.listdir('wavfiles'))
-
-
-def Conv1D(SR=16000, DT=1.0):
+def Conv1D(N_CLASSES=10, SR=16000, DT=1.0):
     i = layers.Input(shape=(1, int(SR*DT)), name='input')
     x = Melspectrogram(n_dft=512, n_hop=160,
                        padding='same', sr=SR, n_mels=128,
@@ -43,7 +40,7 @@ def Conv1D(SR=16000, DT=1.0):
     return model
 
 
-def Conv2D(SR=16000, DT=1.0):
+def Conv2D(N_CLASSES=10, SR=16000, DT=1.0):
     i = layers.Input(shape=(1, int(SR*DT)), name='input')
     x = Melspectrogram(n_dft=512, n_hop=160,
                        padding='same', sr=SR, n_mels=128,
@@ -74,7 +71,7 @@ def Conv2D(SR=16000, DT=1.0):
     return model
 
 
-def LSTM(SR=16000, DT=1.0):
+def LSTM(N_CLASSES=10, SR=16000, DT=1.0):
     i = layers.Input(shape=(1, int(SR*DT)), name='input')
     x = Melspectrogram(n_dft=512, n_hop=160,
                        padding='same', sr=SR, n_mels=128,

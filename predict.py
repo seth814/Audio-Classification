@@ -17,9 +17,9 @@ def make_prediction(args):
         custom_objects={'Melspectrogram':Melspectrogram,
                         'Normalization2D':Normalization2D})
 
-    wav_paths = glob('{}/**'.format('wavfiles'), recursive=True)
+    wav_paths = glob('{}/**'.format(args.src_dir), recursive=True)
     wav_paths = sorted([x.replace(os.sep, '/') for x in wav_paths if '.wav' in x])
-    classes = sorted(os.listdir('wavfiles'))
+    classes = sorted(os.listdir(args.src_dir))
     labels = [os.path.split(x)[0].split('/')[-1] for x in wav_paths]
     le = LabelEncoder()
     y_true = le.fit_transform(labels)
@@ -44,6 +44,8 @@ def make_prediction(args):
         y_pred = model.predict(X_batch)
         y_mean = np.mean(y_pred, axis=0)
         y_pred = np.argmax(y_mean)
+        real_class = os.path.dirname(wav_fn).split('/')[-1]
+        print('Actual class: {}, Predicted class: {}'.format(real_class, classes[y_pred]))
         results.append(y_mean)
 
     np.save(os.path.join('logs', args.pred_fn), np.array(results))
@@ -56,6 +58,8 @@ if __name__ == '__main__':
                         help='model file to make predictions')
     parser.add_argument('--pred_fn', type=str, default='y_pred',
                         help='fn to write predictions in logs dir')
+    parser.add_argument('--src_dir', type=str, default='wavfiles',
+                        help='directory containing wavfiles to predict')
     parser.add_argument('--dt', type=float, default=1.0,
                         help='time in seconds to sample audio')
     parser.add_argument('--sr', type=int, default=16000,
