@@ -82,6 +82,9 @@ def train(args):
                                                                   labels,
                                                                   test_size=0.1,
                                                                   random_state=0)
+
+    assert len(label_train) >= args.batch_size, 'number of train samples must be >= batch_size'
+
     tg = DataGenerator(wav_train, label_train, sr, dt,
                        len(set(label_train)), batch_size=batch_size)
     vg = DataGenerator(wav_val, label_val, sr, dt,
