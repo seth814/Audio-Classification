@@ -12,7 +12,7 @@ def Conv1D(N_CLASSES=10, SR=16000, DT=1.0):
     i = layers.Input(shape=(1, int(SR*DT)), name='input')
     x = Melspectrogram(n_dft=512, n_hop=160,
                        padding='same', sr=SR, n_mels=128,
-                       fmin=0.0, fmax=SR/2, power_melgram=1.0,
+                       fmin=0.0, fmax=SR/2, power_melgram=2.0,
                        return_decibel_melgram=True, trainable_fb=False,
                        trainable_kernel=False,
                        name='melbands')(i)
@@ -44,7 +44,7 @@ def Conv2D(N_CLASSES=10, SR=16000, DT=1.0):
     i = layers.Input(shape=(1, int(SR*DT)), name='input')
     x = Melspectrogram(n_dft=512, n_hop=160,
                        padding='same', sr=SR, n_mels=128,
-                       fmin=0.0, fmax=SR/2, power_melgram=1.0,
+                       fmin=0.0, fmax=SR/2, power_melgram=2.0,
                        return_decibel_melgram=True, trainable_fb=False,
                        trainable_kernel=False,
                        name='melbands')(i)
@@ -75,7 +75,7 @@ def LSTM(N_CLASSES=10, SR=16000, DT=1.0):
     i = layers.Input(shape=(1, int(SR*DT)), name='input')
     x = Melspectrogram(n_dft=512, n_hop=160,
                        padding='same', sr=SR, n_mels=128,
-                       fmin=0.0, fmax=SR/2, power_melgram=1.0,
+                       fmin=0.0, fmax=SR/2, power_melgram=2.0,
                        return_decibel_melgram=True, trainable_fb=False,
                        trainable_kernel=False,
                        name='melbands')(i)
