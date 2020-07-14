@@ -40,7 +40,7 @@ def make_prediction(args):
                 tmp[:,:sample.shape[1]] = sample.flatten()
                 sample = tmp
             batch.append(sample)
-        X_batch = np.array(batch)
+        X_batch = np.array(batch, dtype=np.float32)
         y_pred = model.predict(X_batch)
         y_mean = np.mean(y_pred, axis=0)
         y_pred = np.argmax(y_mean)

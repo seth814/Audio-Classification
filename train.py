@@ -12,6 +12,7 @@ from models import Conv1D, Conv2D, LSTM
 from tqdm import tqdm
 from glob import glob
 import argparse
+import warnings
 
 
 class DataGenerator(tf.keras.utils.Sequence):
@@ -38,7 +39,7 @@ class DataGenerator(tf.keras.utils.Sequence):
         labels = [self.labels[k] for k in indexes]
 
         # generate a batch of time data
-        X = np.empty((self.batch_size, 1, int(self.sr*self.dt)), dtype=np.int16)
+        X = np.empty((self.batch_size, 1, int(self.sr*self.dt)), dtype=np.float32)
         Y = np.empty((self.batch_size, self.n_classes), dtype=np.float32)
 
         for i, (path, label) in enumerate(zip(wav_paths, labels)):
@@ -77,19 +78,21 @@ def train(args):
     le.fit(classes)
     labels = [os.path.split(x)[0].split('/')[-1] for x in wav_paths]
     labels = le.transform(labels)
-
     wav_train, wav_val, label_train, label_val = train_test_split(wav_paths,
                                                                   labels,
                                                                   test_size=0.1,
                                                                   random_state=0)
 
-    assert len(label_train) >= args.batch_size, 'number of train samples must be >= batch_size'
+    assert len(label_train) >= args.batch_size, 'Number of train samples must be >= batch_size'
+    if len(set(label_train)) != params['N_CLASSES']:
+        warnings.warn('Found {}/{} classes in training data. Increase data size or change random_state.')
+    if len(set(label_val)) != params['N_CLASSES']:
+        warnings.warn('Found {}/{} classes in validation data. Increase data size or change random_state.')
 
     tg = DataGenerator(wav_train, label_train, sr, dt,
-                       len(set(label_train)), batch_size=batch_size)
+                       params['N_CLASSES'], batch_size=batch_size)
     vg = DataGenerator(wav_val, label_val, sr, dt,
-                       len(set(label_val)), batch_size=batch_size)
-
+                       params['N_CLASSES'], batch_size=batch_size)
     model = models[model_type]
     cp = ModelCheckpoint('models/{}.h5'.format(model_type), monitor='val_loss',
                          save_best_only=True, save_weights_only=False,
