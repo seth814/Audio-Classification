@@ -36,7 +36,7 @@ def make_prediction(args):
             sample = clean_wav[i:i+step]
             sample = sample.reshape(1,-1)
             if sample.shape[0] < step:
-                tmp = np.zeros(shape=(1,step), dtype=np.int16)
+                tmp = np.zeros(shape=(1,step), dtype=np.float32)
                 tmp[:,:sample.shape[1]] = sample.flatten()
                 sample = tmp
             batch.append(sample)
