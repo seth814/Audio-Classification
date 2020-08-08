@@ -85,9 +85,9 @@ def train(args):
 
     assert len(label_train) >= args.batch_size, 'Number of train samples must be >= batch_size'
     if len(set(label_train)) != params['N_CLASSES']:
-        warnings.warn('Found {}/{} classes in training data. Increase data size or change random_state.')
+        warnings.warn('Found {}/{} classes in training data. Increase data size or change random_state.'.format(len(set(label_train)), params['N_CLASSES']))
     if len(set(label_val)) != params['N_CLASSES']:
-        warnings.warn('Found {}/{} classes in validation data. Increase data size or change random_state.')
+        warnings.warn('Found {}/{} classes in validation data. Increase data size or change random_state.'.format(len(set(label_val)), params['N_CLASSES']))
 
     tg = DataGenerator(wav_train, label_train, sr, dt,
                        params['N_CLASSES'], batch_size=batch_size)
@@ -99,7 +99,7 @@ def train(args):
                          mode='auto', save_freq='epoch', verbose=1)
     csv_logger = CSVLogger(csv_path, append=False)
     model.fit(tg, validation_data=vg,
-              epochs=30, verbose=1,
+              epochs=30, verbose=1, workers=2,
               callbacks=[csv_logger, cp])
 
 
