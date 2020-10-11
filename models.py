@@ -1,23 +1,26 @@
 from tensorflow.keras import layers
-from tensorflow.keras.layers import TimeDistributed
+from tensorflow.keras.layers import TimeDistributed, LayerNormalization
 from tensorflow.keras.models import Model
 from tensorflow.keras.regularizers import l2
-from kapre.time_frequency import Melspectrogram
-from kapre.utils import Normalization2D
+import kapre
+from kapre.composed import get_melspectrogram_layer
 import tensorflow as tf
 import os
 
 
 def Conv1D(N_CLASSES=10, SR=16000, DT=1.0):
-    i = layers.Input(shape=(1, int(SR*DT)), name='input')
-    x = Melspectrogram(n_dft=512, n_hop=160,
-                       padding='same', sr=SR, n_mels=128,
-                       fmin=0.0, fmax=SR/2, power_melgram=2.0,
-                       return_decibel_melgram=True, trainable_fb=False,
-                       trainable_kernel=False,
-                       name='melbands')(i)
-    x = Normalization2D(str_axis='batch', name='batch_norm')(x)
-    x = layers.Permute((2,1,3), name='permute')(x)
+    input_shape = (int(SR*DT), 1)
+    i = get_melspectrogram_layer(input_shape=input_shape,
+                                 n_mels=128,
+                                 pad_end=True,
+                                 n_fft=512,
+                                 win_length=400,
+                                 hop_length=160,
+                                 sample_rate=SR,
+                                 return_decibel=True,
+                                 input_data_format='channels_last',
+                                 output_data_format='channels_last')
+    x = LayerNormalization(axis=2, name='batch_norm')(i.output)
     x = TimeDistributed(layers.Conv1D(8, kernel_size=(4), activation='tanh'), name='td_conv_1d_tanh')(x)
     x = layers.MaxPooling2D(pool_size=(2,2), name='max_pool_2d_1')(x)
     x = TimeDistributed(layers.Conv1D(16, kernel_size=(4), activation='relu'), name='td_conv_1d_relu_1')(x)
@@ -31,24 +34,26 @@ def Conv1D(N_CLASSES=10, SR=16000, DT=1.0):
     x = layers.Dropout(rate=0.1, name='dropout')(x)
     x = layers.Dense(64, activation='relu', activity_regularizer=l2(0.001), name='dense')(x)
     o = layers.Dense(N_CLASSES, activation='softmax', name='softmax')(x)
-
-    model = Model(inputs=i, outputs=o, name='1d_convolution')
+    model = Model(inputs=i.input, outputs=o, name='1d_convolution')
     model.compile(optimizer='adam',
                   loss='categorical_crossentropy',
                   metrics=['accuracy'])
-
     return model
 
 
 def Conv2D(N_CLASSES=10, SR=16000, DT=1.0):
-    i = layers.Input(shape=(1, int(SR*DT)), name='input')
-    x = Melspectrogram(n_dft=512, n_hop=160,
-                       padding='same', sr=SR, n_mels=128,
-                       fmin=0.0, fmax=SR/2, power_melgram=2.0,
-                       return_decibel_melgram=True, trainable_fb=False,
-                       trainable_kernel=False,
-                       name='melbands')(i)
-    x = Normalization2D(str_axis='batch', name='batch_norm')(x)
+    input_shape = (int(SR*DT), 1)
+    i = get_melspectrogram_layer(input_shape=input_shape,
+                                 n_mels=128,
+                                 pad_end=True,
+                                 n_fft=512,
+                                 win_length=400,
+                                 hop_length=160,
+                                 sample_rate=SR,
+                                 return_decibel=True,
+                                 input_data_format='channels_last',
+                                 output_data_format='channels_last')
+    x = LayerNormalization(axis=2, name='batch_norm')(i.output)
     x = layers.Conv2D(8, kernel_size=(7,7), activation='tanh', padding='same', name='conv2d_tanh')(x)
     x = layers.MaxPooling2D(pool_size=(2,2), padding='same', name='max_pool_2d_1')(x)
     x = layers.Conv2D(16, kernel_size=(5,5), activation='relu', padding='same', name='conv2d_relu_1')(x)
@@ -62,25 +67,27 @@ def Conv2D(N_CLASSES=10, SR=16000, DT=1.0):
     x = layers.Dropout(rate=0.2, name='dropout')(x)
     x = layers.Dense(64, activation='relu', activity_regularizer=l2(0.001), name='dense')(x)
     o = layers.Dense(N_CLASSES, activation='softmax', name='softmax')(x)
-
-    model = Model(inputs=i, outputs=o, name='2d_convolution')
+    model = Model(inputs=i.input, outputs=o, name='2d_convolution')
     model.compile(optimizer='adam',
                   loss='categorical_crossentropy',
                   metrics=['accuracy'])
-
     return model
 
 
 def LSTM(N_CLASSES=10, SR=16000, DT=1.0):
-    i = layers.Input(shape=(1, int(SR*DT)), name='input')
-    x = Melspectrogram(n_dft=512, n_hop=160,
-                       padding='same', sr=SR, n_mels=128,
-                       fmin=0.0, fmax=SR/2, power_melgram=2.0,
-                       return_decibel_melgram=True, trainable_fb=False,
-                       trainable_kernel=False,
-                       name='melbands')(i)
-    x = Normalization2D(str_axis='batch', name='batch_norm')(x)
-    x = layers.Permute((2,1,3), name='permute')(x)
+    input_shape = (int(SR*DT), 1)
+    i = get_melspectrogram_layer(input_shape=input_shape,
+                                     n_mels=128,
+                                     pad_end=True,
+                                     n_fft=512,
+                                     win_length=400,
+                                     hop_length=160,
+                                     sample_rate=SR,
+                                     return_decibel=True,
+                                     input_data_format='channels_last',
+                                     output_data_format='channels_last',
+                                     name='2d_convolution')
+    x = LayerNormalization(axis=2, name='batch_norm')(i.output)
     x = TimeDistributed(layers.Reshape((-1,)), name='reshape')(x)
     s = TimeDistributed(layers.Dense(64, activation='tanh'),
                         name='td_dense_tanh')(x)
@@ -96,10 +103,10 @@ def LSTM(N_CLASSES=10, SR=16000, DT=1.0):
                          activity_regularizer=l2(0.001),
                          name='dense_3_relu')(x)
     o = layers.Dense(N_CLASSES, activation='softmax', name='softmax')(x)
-
-    model = Model(inputs=i, outputs=o, name='long_short_term_memory')
+    model = Model(inputs=i.input, outputs=o, name='long_short_term_memory')
     model.compile(optimizer='adam',
                   loss='categorical_crossentropy',
                   metrics=['accuracy'])
 
     return model
+

@@ -1,6 +1,6 @@
 # Audio-Classification (Kapre Version)
 
-Pipeline for prototyping audio classification algorithms with TF 2
+Pipeline for prototyping audio classification algorithms with TF 2.3
 
 ![melspectrogram](docs/mel_spectrograms.png)
 

@@ -1,7 +1,6 @@
 from tensorflow.keras.models import load_model
 from clean import downsample_mono, envelope
-from kapre.time_frequency import Melspectrogram
-from kapre.utils import Normalization2D
+from kapre.time_frequency import STFT, Magnitude, ApplyFilterbank, MagnitudeToDecibel
 from sklearn.preprocessing import LabelEncoder
 import numpy as np
 from glob import glob
@@ -14,9 +13,10 @@ from tqdm import tqdm
 def make_prediction(args):
 
     model = load_model(args.model_fn,
-        custom_objects={'Melspectrogram':Melspectrogram,
-                        'Normalization2D':Normalization2D})
-
+        custom_objects={'STFT':STFT,
+                        'Magnitude':Magnitude,
+                        'ApplyFilterbank':ApplyFilterbank,
+                        'MagnitudeToDecibel':MagnitudeToDecibel})
     wav_paths = glob('{}/**'.format(args.src_dir), recursive=True)
     wav_paths = sorted([x.replace(os.sep, '/') for x in wav_paths if '.wav' in x])
     classes = sorted(os.listdir(args.src_dir))
@@ -34,10 +34,10 @@ def make_prediction(args):
 
         for i in range(0, clean_wav.shape[0], step):
             sample = clean_wav[i:i+step]
-            sample = sample.reshape(1,-1)
+            sample = sample.reshape(-1, 1)
             if sample.shape[0] < step:
-                tmp = np.zeros(shape=(1,step), dtype=np.float32)
-                tmp[:,:sample.shape[1]] = sample.flatten()
+                tmp = np.zeros(shape=(step, 1), dtype=np.float32)
+                tmp[:sample.shape[0],:] = sample.flatten().reshape(-1, 1)
                 sample = tmp
             batch.append(sample)
         X_batch = np.array(batch, dtype=np.float32)
@@ -69,3 +69,4 @@ if __name__ == '__main__':
     args, _ = parser.parse_known_args()
 
     make_prediction(args)
+

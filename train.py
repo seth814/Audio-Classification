@@ -39,12 +39,12 @@ class DataGenerator(tf.keras.utils.Sequence):
         labels = [self.labels[k] for k in indexes]
 
         # generate a batch of time data
-        X = np.empty((self.batch_size, 1, int(self.sr*self.dt)), dtype=np.float32)
+        X = np.empty((self.batch_size, int(self.sr*self.dt), 1), dtype=np.float32)
         Y = np.empty((self.batch_size, self.n_classes), dtype=np.float32)
 
         for i, (path, label) in enumerate(zip(wav_paths, labels)):
             rate, wav = wavfile.read(path)
-            X[i,] = wav.reshape(1, -1)
+            X[i,] = wav.reshape(-1, 1)
             Y[i,] = to_categorical(label, num_classes=self.n_classes)
 
         return X, Y
@@ -99,9 +99,8 @@ def train(args):
                          mode='auto', save_freq='epoch', verbose=1)
     csv_logger = CSVLogger(csv_path, append=False)
     model.fit(tg, validation_data=vg,
-              epochs=30, verbose=1, workers=2,
+              epochs=30, verbose=1,
               callbacks=[csv_logger, cp])
-
 
 if __name__ == '__main__':
 
@@ -119,3 +118,4 @@ if __name__ == '__main__':
     args, _ = parser.parse_known_args()
 
     train(args)
+
