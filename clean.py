@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 from librosa.core import resample, to_mono
 from tqdm import tqdm
+import wavio
 
 
 def envelope(y, rate, threshold):
@@ -24,8 +25,9 @@ def envelope(y, rate, threshold):
 
 
 def downsample_mono(path, sr):
-    rate, wav = wavfile.read(path)
-    wav = wav.astype(np.float32, order='F')
+    obj = wavio.read(path)
+    wav = obj.data.astype(np.float32, order='F')
+    rate = obj.rate
     try:
         tmp = wav.shape[1]
         wav = to_mono(wav.T)
