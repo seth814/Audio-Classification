@@ -29,10 +29,16 @@ def downsample_mono(path, sr):
     wav = obj.data.astype(np.float32, order='F')
     rate = obj.rate
     try:
-        tmp = wav.shape[1]
-        wav = to_mono(wav.T)
-    except:
+        channel = wav.shape[1]
+        if channel == 2:
+            wav = to_mono(wav.T)
+        elif channel == 1:
+            wav = to_mono(wav.reshape(-1))
+    except IndexError:
+        wav = to_mono(wav.reshape(-1))
         pass
+    except Exception as exc:
+        raise exc
     wav = resample(wav, rate, sr)
     wav = wav.astype(np.int16)
     return sr, wav
@@ -126,5 +132,5 @@ if __name__ == '__main__':
                         help='threshold magnitude for np.int16 dtype')
     args, _ = parser.parse_known_args()
 
-    test_threshold(args)
-    #split_wavs(args)
+    #test_threshold(args)
+    split_wavs(args)
