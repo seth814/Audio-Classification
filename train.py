@@ -14,6 +14,11 @@ from glob import glob
 import argparse
 import warnings
 
+gpus = tf.config.experimental.list_physical_devices('GPU')
+# Currently, memory growth needs to be the same across GPUs
+for gpu in gpus:
+        tf.config.experimental.set_memory_growth(gpu, True)
+tf.config.experimental.set_virtual_device_configuration(gpus[0], [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=4096)])
 
 class DataGenerator(tf.keras.utils.Sequence):
     def __init__(self, wav_paths, labels, sr, dt, n_classes,
