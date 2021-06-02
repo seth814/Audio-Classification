@@ -70,7 +70,7 @@ termcolor==1.1.0
 tornado==6.0.4
 tqdm==4.43.0
 traitlets==4.3.3
-urllib3==1.25.8
+urllib3==1.26.5
 wavio==0.0.4
 wcwidth==0.1.8
 Werkzeug==1.0.0
