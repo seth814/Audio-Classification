@@ -20,7 +20,7 @@ ipykernel==5.2.0
 ipython==7.13.0
 ipython-genutils==0.2.0
 jedi==0.16.0
-joblib==0.14.1
+joblib==1.2.0
 jupyter-client==6.1.0
 jupyter-core==4.6.3
 kapre==0.3.4
