@@ -28,18 +28,18 @@ def manipulate(data, noise_factor):
     return augmented_data
 
 def augment(x=50):
-    for file in tqdm(os.listdir('test/')):
+    for file in tqdm(os.listdir('original_data/')):
         if os.path.isfile(file):
             continue
         i = 0
-        for f in os.listdir('test/' + file):
+        for f in os.listdir('original_data/' + file):
             print(f)
-            p = os.path.join('test/', file) + '/' + f
+            p = os.path.join('original_data/', file) + '/' + f
             data, sr = librosa.core.load(p)
             for j in range(x):
                 d = manipulate(data, 0.05)
                 d1, d2 = shift(data, sr, 3, 'both'), shift(d, sr, 3, 'both')
-                p = f'clean_test/{file}'
+                p = f'augmented_data/{file}'
                 if os.path.exists(p) is False:
                     os.mkdir(p)
                 sf.write(f'{p}/{i}_{1}.wav', d1, sr)
