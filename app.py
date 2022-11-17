@@ -59,27 +59,6 @@ def form():
     os.remove(secure_filename(file.filename))
     os.remove('incoming/idk/out000000000.wav')
 
-    # filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-    # f.save(filepath)
-
-    # Jump back to the beginning of the file.
-    # f.seek(0)
-    
-    # # Read the audio data again.
-    # data, samplerate = soundfile.read(filename)
-    # with io.BytesIO() as fio:
-    #     soundfile.write(
-    #         fio, 
-    #         data, 
-    #         samplerate=samplerate, 
-    #         subtype='PCM_16', 
-    #         format='wav'
-    #     )
-    #     data = fio.getvalue()
-
-    #response = jsonify("File received and saved!")
-    #response.headers.add('Access-Control-Allow-Origin', '*')
-
     result = jsonify(result)
     return result
     
