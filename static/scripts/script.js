@@ -64,7 +64,6 @@ if (navigator.mediaDevices.getUserMedia) {
             const audio = new Audio(audioUrl);
             audio.play();
             console.log("recorder stopped");
-
             let data = new FormData()
             data.append('file', blob , 'file')
 
