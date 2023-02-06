@@ -71,6 +71,8 @@ def split_wavs(args):
         target_dir = os.path.join(dst_root, _cls)
         check_dir(target_dir)
         src_dir = os.path.join(src_root, _cls)
+        if not os.path.isdir(src_dir):
+            continue
         for fn in tqdm(os.listdir(src_dir)):
             src_fn = os.path.join(src_dir, fn)
             rate, wav = downsample_mono(src_fn, args.sr)
@@ -117,13 +119,13 @@ def test_threshold(args):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Cleaning audio data')
-    parser.add_argument('--src_root', type=str, default='wavfiles',
+    parser.add_argument('--src_root', type=str, default='augmented_data',
                         help='directory of audio files in total duration')
-    parser.add_argument('--dst_root', type=str, default='clean',
+    parser.add_argument('--dst_root', type=str, default='cleaned_data',
                         help='directory to put audio files split by delta_time')
-    parser.add_argument('--delta_time', '-dt', type=float, default=1.0,
+    parser.add_argument('--delta_time', '-dt', type=float, default=7.0,
                         help='time in seconds to sample audio')
-    parser.add_argument('--sr', type=int, default=16000,
+    parser.add_argument('--sr', type=int, default=22050,
                         help='rate to downsample audio')
 
     parser.add_argument('--fn', type=str, default='3a3d0279',

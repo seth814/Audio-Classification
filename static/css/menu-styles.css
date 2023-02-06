@@ -1,0 +1,119 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Bebas Neue', cursive;
+    background-color: #8BE451;
+}
+a:link,
+a:visited {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: none;
+}
+.logoname {
+    display: flex;
+    align-items: center;
+
+}
+.name {
+    display: flex;
+    align-items: baseline;
+
+    position: relative;
+}
+.logo {
+    position: absolute;
+    right: 308px;
+    top: -10px;
+}
+.name a:hover {
+    text-decoration: none;
+}
+.by-text {
+    font-family: 'Karla', sans-serif;
+    font-size: 12px;
+    margin: 0 6px;
+}
+.codeo-text {
+    font-family: 'Karla', sans-serif;
+    font-size: 14px;
+    letter-spacing: .3em;
+}
+.menu-container {
+    color: #FFFFFF;
+    background-color: #8BE451;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+.menu {
+    width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    align-items: center;
+    font-size: 64px;
+}
+.toolbar {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+}
+.download-container {
+    width: 130px;
+    height: 40px;
+    border-radius: 13px;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+    z-index: 0;
+}
+.download-container a {
+    color: #82A2F4;
+    font-size: 21px;
+    position: absolute;
+    z-index: 2
+}
+.download-copy {
+    width: 130px;
+    height: 40px;
+    border-radius: 13px;
+    background-color: #FFFFFF;
+    position: absolute;
+    z-index: 1
+}
+.logo2 {
+    position: absolute;
+    left: 105px;
+    top: -23px;
+    z-index: -1;
+}
+@media only screen and (max-width: 800px) {
+    .toolbar {
+        width: 38%;
+    }
+    .download-container {
+        display: none;
+    }
+}
+@media only screen and (min-width: 801px) and (max-width: 900px) {
+    .toolbar {
+        width: 305px;
+    }
+}
+@media only screen and (min-width: 801px) and (max-width: 1300px) {
+    .download-container {
+        display: none;
+    }
+}

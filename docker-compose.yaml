@@ -1,0 +1,30 @@
+version: '3'
+services:
+  db:
+    ports:
+      - 5432:5432
+      - 8000:8000
+      # - 5000:5000
+    build:
+      context: ./docker/postgres
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=dejavu
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    networks:
+      - db_network
+  python:
+    build:
+      context: './docker/python'
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    networks:
+      - db_network
+networks:
+  db_network:
+volumes:
+  db:

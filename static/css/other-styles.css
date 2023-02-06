@@ -1,0 +1,38 @@
+body {
+    background-color: #82A2F4;
+}
+.menu-container {
+    background-color: #82A2F4;
+}
+.download-container {
+    background-color: #8BE451;
+}
+.download-container a {
+    color: #FFFFFF;
+}
+.download-copy {
+    background-color: #8BE451;
+}
+.text {
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+h1 {
+    font-size: 50px;
+    padding-top: 75px;
+}
+p {
+    line-height: 40px;
+    letter-spacing: .07em;
+    padding: 15px 75px;
+}
+p:first-of-type {
+    padding-top: 50px;
+}
+@media only screen and (min-width: 800px) {
+    p {
+        width: 800px;
+    }
+}

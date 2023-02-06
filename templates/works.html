@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='UTF-8'/>
+        <title>About Us</title>
+        <link rel="stylesheet" href="{{
+            url_for('static', filename='css/menu-styles.css')}}">
+        <link rel="stylesheet" href="{{
+            url_for('static', filename='css/other-styles.css')}}">
+        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Karla:wght@600&display=swap" rel="stylesheet">
+
+    </head>
+    <body>
+        <header class='menu-container'>
+            <div class='menu'>
+                <div class='logoname'>
+                    <div class='name'>
+                        <div class='logo'>
+                            <img src="{{url_for('static', filename='images/soundwave.png')}}" width=260px height=86px/>
+                        </div>
+                        <a href='index.html'>
+                            Jay-Zam!
+                        </a>
+                        <div class='by-text'>
+                            by
+                        </div>
+                        <div class='codeo-text'>
+                            CODEOLOGY
+                        </div>
+                    </div>    
+                </div>
+                <div class='toolbar'>
+                    <a href='about-us.html'>About Us</a>
+                    <a href='works.html'>How it Works</a>
+                    <a href='more.html'>More</a>
+                    <div class='download-container'>
+                        <a href='#'>Download</a>
+                        <div class='download-copy'></div>
+                        <div class='logo2'>
+                            <img src="{{url_for('static', filename='images/soundwave2.png')}}" width=260px height=86px/>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+        </header>
+        <content class='text'>
+            <h1>How It Works</h1>
+            <p>Oftentimes there isn't a good answer. No matter how you try to 
+            rationalize the outcome, it doesn't make sense. And instead of 
+            an answer, you are simply left with a question. Why?</p>
+
+            <p>There were about twenty people on the dam. Most of them were 
+            simply walking and getting exercise. There were a few who 
+            were fishing. There was a family who had laid down a blanket 
+            and they were having a picnic. It was like this most days 
+            and nothing seemed out of the ordinary. The problem was that 
+            nobody noticed the water leaking through the dam wall.</p>    
+        </content>
+        
+    </body>
+</html>
